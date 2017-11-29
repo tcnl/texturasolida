@@ -28,6 +28,7 @@
 
 var vetoresCam = [];
 var vetoresIlu = [];
+var vetoresObj = [];
 var camera = [];
 var iluminacao = [];
 var objetos = [];
@@ -69,7 +70,6 @@ window.addEventListener("load", function () {
                    console.log(V);
                    console.log("hjhjh");
                    console.log(V);
-                   // console.log(camera);
                    console.log(vetoresCam); 
 
                 }else if(file.name == "iluminacao.txt"){
@@ -82,8 +82,8 @@ window.addEventListener("load", function () {
                         for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
 
                         iluminacao[k] = aux;
-                        //Cria vetores da iluminacao
-                        if(k%2 == 0) vetoresIlu[k/2] = new Vector(iluminacao[k][0], iluminacao[k][1], iluminacao[k][2]);
+                        
+                        
                     }
                     P1 = new Vector(iluminacao[0][0], iluminacao[0][1], iluminacao[0][2]);
                     ka = iluminacao[1][0];
@@ -95,13 +95,15 @@ window.addEventListener("load", function () {
                     n = iluminacao[7];
                     console.log(vetoresIlu);
                 }else{
-                    objetos[objIndex] = (reader.result).split('\n');
+                    objetos = (reader.result).split('\n');
                     for(var k = 0; k < objetos.length; k++){
                         var aux = [];
-                        aux = objetos[objIndex][k].split(" ");
+                        aux = objetos[k].split(" ");
                         for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
                         objetos[k] = aux;
+                        vetoresObj[k] = new Vector(objetos[k][1], objetos[k][2], objetos[k][3]);
                     } 
+                    console.log(vetoresObj);
                     objIndex++;
                 };
 
