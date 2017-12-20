@@ -116,7 +116,7 @@ Point3D.prototype.toBase = function(matrix) {
   var x = (matrix[0][0] * this.x) + (matrix[0][1] * this.y) + (matrix[0][2] * this.z);
   var y = (matrix[1][0] * this.x) + (matrix[1][1] * this.y) + (matrix[1][2] * this.z);
   var z = (matrix[2][0] * this.x) + (matrix[2][1] * this.y) + (matrix[2][2] * this.z);
-
+  //console.log("x: " + x, "\ny: "+y);
   return new Point3D(x, y, z);
 };
 

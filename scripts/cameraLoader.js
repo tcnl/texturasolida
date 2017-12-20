@@ -50,9 +50,22 @@ window.addEventListener("load", function () {
                       V.normalize;
                       N.normalize;
                       alfa = [];
-                      alfa[0] = U;
-                      alfa[1] = V;
-                      alfa[2] = N;
+                      aux = [];
+                      alfa[0] = aux;
+                      alfa[1] = aux;
+                      alfa[2] = aux;
+                      alfa[0][0] = U.x;
+                      alfa[0][1] = U.y;
+                      alfa[0][2] = U.z;
+
+                      alfa[1][0] = V.x;
+                      alfa[1][1] = V.y;
+                      alfa[1][2] = V.z;
+
+                      alfa[2][0] = N.x;
+                      alfa[2][1] = N.y;
+                      alfa[2][2] = N.z;
+
                       cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), alfa) 
                       console.log("DEBUG CAM: N, V, U, Alfa");
                       console.log(N);
