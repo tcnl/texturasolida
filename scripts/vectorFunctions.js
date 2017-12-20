@@ -1,3 +1,10 @@
+function Cam (c ,d, hx, hy, alfa){
+  this.c = c;
+  this.d = d;
+  this.hx = hx;
+  this.hy = hy;
+  this.alfa = alfa;
+}
 function Vector (x, y, z) {
   this.x = x;
   this.y = y;
@@ -184,7 +191,7 @@ Triangle.prototype.calculateNormal = function() {
   z = this.p3.z - this.p2.z;
   var v32 = new Vector(x, y, z);
 
-  this.normal = v21.getNormal(v32);
+  this.normal = v21.crossProduct(v32);
   this.normal.normalize();
 };
 

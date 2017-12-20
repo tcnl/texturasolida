@@ -4,6 +4,8 @@ var objetos = [];
 var vertices = [];
 var triangulos = [];
 
+var verticesTela=[];
+
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
         var input = document.getElementById('objeto');
@@ -28,23 +30,27 @@ window.addEventListener("load", function () {
             console.log("Tri: " + qtdTri +"\nVert: " + qtdVert);
             objetos = (reader.result).split('\n');
            
+           //PREENCHER ARRAY DE VERTICES E CRIAR PONTOS
             for(var k = 1; k < qtdVert+1; k++){
               var aux = [];
               aux = objetos[k].split(" ");
               vertices[k-1] = aux;
               for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
               vertices[k-1] = new Point3D(parseFloat(aux[0]), parseFloat(aux[1]), parseFloat(aux[2]));
+              verticesTela[k-1] = 0;
             } 
 
+            //PREENCHER ARRAY DE TRIANGULOS E CRIAR OS TRIANGULOS
             for(var k = qtdVert+1; k < qtdVert + qtdTri +1; k++){
               var aux = [];
               aux = objetos[k].split(" ");
               triangulos[k - qtdVert] = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
-              triangulos[k - qtdVert].calculateNormal;
+              (triangulos[k - qtdVert]).calculateNormal;
             }
+
             console.log(vertices);
             console.log(triangulos);
-            objIndex++;
+            console.log(triangulos[1].normal)
           }else(div1.innerHTML = "Objetos: File does not match!");
         }
         reader.readAsText(file);
