@@ -4,7 +4,7 @@ var objetos = [];
 var vertices = [];
 var triangulos = [];
 
-var verticesTela=[];
+var triangulosTela=[];
 
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
@@ -37,20 +37,21 @@ window.addEventListener("load", function () {
               vertices[k-1] = aux;
               for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
               vertices[k-1] = new Point3D(parseFloat(aux[0]), parseFloat(aux[1]), parseFloat(aux[2]));
-              verticesTela[k-1] = 0;
             } 
 
-            //PREENCHER ARRAY DE TRIANGULOS E CRIAR OS TRIANGULOS
+            //PREENCHER ARRAY DE TRIANGULOS E CRIAR OS TRIANGULOS DE TELA
             for(var k = qtdVert+1; k < qtdVert + qtdTri +1; k++){
               var aux = [];
               aux = objetos[k].split(" ");
               triangulos[k - qtdVert] = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
               (triangulos[k - qtdVert]).calculateNormal;
+              triangulosTela[k - qtdVert] = triangulos[k- qtdVert].getScreenTriangle(cam);
             }
 
-            console.log(vertices);
-            console.log(triangulos);
-            console.log(triangulos[1].normal)
+            //console.log(vertices);
+           // console.log(triangulos);
+            console.log(triangulos[1].normal);
+            console.log(triangulosTela);
           }else(div1.innerHTML = "Objetos: File does not match!");
         }
         reader.readAsText(file);

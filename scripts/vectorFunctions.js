@@ -195,7 +195,7 @@ Triangle.prototype.calculateNormal = function() {
   this.normal.normalize();
 };
 
-Triangle.prototype.getScreenTiangle = function(cam) {
+Triangle.prototype.getScreenTriangle = function(cam) {
   var p1 = this.p1.getScreenPoint(cam);
   var p2 = this.p2.getScreenPoint(cam);
   var p3 = this.p3.getScreenPoint(cam);

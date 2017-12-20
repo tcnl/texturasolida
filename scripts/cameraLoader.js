@@ -3,6 +3,7 @@ var C;
 var N;
 var V;
 var U;
+var cam;
 
 
 window.addEventListener("load", function () {
@@ -50,7 +51,7 @@ window.addEventListener("load", function () {
                       U = U.normalize;
                       V = V.normalize;
                       N = N.normalize;
-                      var cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), 0) 
+                      cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), 0) 
 
                       console.log(cam);
 
