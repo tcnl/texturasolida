@@ -3,7 +3,7 @@
         <h1>Text File Reader</h1>
         <h2 id="h2">Voce nao carregou nenhum arquivo</h2>
         <div>
-            Selecione o camera.cfg 
+            Selecione a camera.cfg
             <input type="file" id="input">
         </div>
         <pre id="fileDisplayArea"><pre>
@@ -50,8 +50,8 @@ window.addEventListener("load", function () {
             reader.onload = function(e) {
                 if(file.name == "camera.cfg"){
                     camera = (reader.result).split('\n');
-                   // console.log(camera[0]); 
-                    
+                   // console.log(camera[0]);
+
                     for(var k = 0; k < camera.length; k++){
                         var aux = [];
                         aux = camera[k].split(" ");
@@ -70,11 +70,11 @@ window.addEventListener("load", function () {
                    console.log(V);
                    console.log("hjhjh");
                    console.log(V);
-                   console.log(vetoresCam); 
+                   console.log(vetoresCam);
 
                 }else if(file.name == "iluminacao.txt"){
                     iluminacao = (reader.result).split('\n');
-                    
+
                     for(var k = 0; k < iluminacao.length; k++){
                         var aux = [];
                         aux = iluminacao[k].split(" ");
@@ -82,8 +82,8 @@ window.addEventListener("load", function () {
                         for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
 
                         iluminacao[k] = aux;
-                        
-                        
+
+
                     }
                     P1 = new Vector(iluminacao[0][0], iluminacao[0][1], iluminacao[0][2]);
                     ka = iluminacao[1][0];
@@ -102,13 +102,13 @@ window.addEventListener("load", function () {
                         for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
                         objetos[k] = aux;
                         vetoresObj[k] = new Vector(objetos[k][1], objetos[k][2], objetos[k][3]);
-                    } 
+                    }
                     console.log(vetoresObj);
                     objIndex++;
                 };
 
 
-                  
+
             }
             reader.readAsText(file);
             h1.innerHTML = "Voce carregou o arquivo: " +file.name;
