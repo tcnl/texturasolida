@@ -1,3 +1,7 @@
+var trianObj = [];
+var objIndex = 0;
+var objetos = [];
+
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
         var input = document.getElementById('objeto');
@@ -12,17 +16,20 @@ window.addEventListener("load", function () {
         var reader = new FileReader();
 
         reader.onload = function(e) {
-          if(file.name == "objetos"){
+          if(~file.name.indexOf(".byu")){
             div1.innerHTML = "Voce carregou o arquivo: " +file.name;
+            
+            var info = reader.result.split('\n').shift();
+            console.log(info);
             objetos = (reader.result).split('\n');
-            for(var k = 0; k < objetos.length; k++){
+            for(var k = 1; k < objetos.length; k++){
               var aux = [];
               aux = objetos[k].split(" ");
               for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
                 objetos[k] = aux;
-              vetoresObj[k] = new Vector(objetos[k][1], objetos[k][2], objetos[k][3]);
+              trianObj[k] = new Triangle(objetos[k][1], objetos[k][2], objetos[k][3]);
             } 
-            console.log(vetoresObj);
+            console.log(trianObj);
             objIndex++;
           }else(div1.innerHTML = "Objetos: File does not match!");
         }

@@ -2,6 +2,7 @@ var camera = [];
 var C;
 var N;
 var V;
+var U;
 
 
 window.addEventListener("load", function () {
@@ -18,7 +19,7 @@ window.addEventListener("load", function () {
         var reader = new FileReader();
 
         reader.onload = function(e) {
-          if(file.name == "camera.cfg"){
+          if(~file.name.indexOf(".cfg")){
             h1.innerHTML = "Camera: Voce carregou o arquivo: " +file.name;
             camera = (reader.result).split('\n');
                    // console.log(camera[0]); 
@@ -30,22 +31,31 @@ window.addEventListener("load", function () {
                     for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
 
                       camera[k] = aux;
-                    console.log(camera);
+
                         //Cria vetores da camera
                         //vetoresCam[k] = new Vector(camera[k][0], camera[k][1], camera[k][2]);
                       }
-                      C = new Vector(camera[0][0], camera[0][1], camera[0][2]);
-                      N = new Vector(camera[1][0], camera[1][1], camera[1][2]);
-                      V = new Vector(camera[2][0], camera[2][1], camera[2][2]);
-                      var ortV = V.gramSchimdt(N);
+                      console.log(camera);
+                      C = new Vector(parseFloat(camera[0][0]), parseFloat(camera[0][1]), parseFloat(camera[0][2]));
+                      N = new Vector(parseFloat(camera[1][0]), parseFloat(camera[1][1]), parseFloat(camera[1][2]));
+                      V = new Vector(parseFloat(camera[2][0]), parseFloat(camera[2][1]), parseFloat(camera[2][2]));
                       console.log(V);
-                      console.log("hjhjh");
+                      V = V.gramSchimdt(N);
+                      U = V.crossProduct(N);
+
+                      console.log(N);
                       console.log(V);
-                      console.log(vetoresCam); 
+                      console.log(U);
+
+                      U = U.normalize;
+                      V = V.normalize;
+                      N = N.normalize;
+
+
 
                     }else(h1.innerHTML = "Camera: File does not match!");
                   }
                   reader.readAsText(file);
                   
                 });
-});
+     });

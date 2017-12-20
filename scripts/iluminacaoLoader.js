@@ -22,7 +22,7 @@ window.addEventListener("load", function () {
         var reader = new FileReader();
 
         reader.onload = function(e) {
-         if(file.name == "iluminacao.txt"){
+         if(~file.name.indexOf(".txt")){
           div3.innerHTML = "Iluminacao: Voce carregou o arquivo: " +file.name;
           iluminacao = (reader.result).split('\n');
 
