@@ -197,6 +197,14 @@ Triangle.prototype.calculateNormal = function() {
   this.normal.normalize();
 };
 
+Triangle.prototype.getViewTriangle = function(cam){
+  var p1 = this.p1.toView(cam);
+  var p2 = this.p2.toView(cam);
+  var p3 = this.p3.toView(cam);
+
+  return new Triangle(p1, p2, p3);
+}
+
 Triangle.prototype.getScreenTriangle = function(cam) {
   var p1 = this.p1.getScreenPoint(cam);
   var p2 = this.p2.getScreenPoint(cam);

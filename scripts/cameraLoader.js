@@ -44,15 +44,20 @@ window.addEventListener("load", function () {
                       V = V.gramSchimdt(N);
                       U = V.crossProduct(N);
 
+                     
+
+                      U.normalize;
+                      V.normalize;
+                      N.normalize;
+                      alfa = [];
+                      alfa[0] = U;
+                      alfa[1] = V;
+                      alfa[2] = N;
+                      cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), alfa) 
+                      console.log("DEBUG CAM: N, V, U, Alfa");
                       console.log(N);
                       console.log(V);
                       console.log(U);
-
-                      U = U.normalize;
-                      V = V.normalize;
-                      N = N.normalize;
-                      cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), 0) 
-
                       console.log(cam);
 
 

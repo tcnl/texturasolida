@@ -5,6 +5,7 @@ var vertices = [];
 var triangulos = [];
 
 var triangulosTela=[];
+var triangulosVista=[];
 
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
@@ -24,6 +25,8 @@ window.addEventListener("load", function () {
         var c = new Point3D(9, 8, 11);
         var tri = new Triangle(a, b, c);
         console.log("DEBUG");
+        console.log(tri);
+        tri = tri.getViewTriangle(cam);
         console.log(tri);
         tri = tri.getScreenTriangle(cam);
         console.log(tri);
@@ -53,10 +56,12 @@ window.addEventListener("load", function () {
               var aux = [];
               aux = objetos[k].split(" ");
               var triangle = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
-              var screenTriangle = triangle.getScreenTriangle(cam);
+              var viewTriangle = triangle.getViewTriangle(cam);
+              var screenTriangle = viewTriangle.getScreenTriangle(cam);
               triangulos[k - qtdVert] = triangle;
-              (triangulos[k - qtdVert]).calculateNormal;
+              triangulos[k - qtdVert].calculateNormal;
               triangulosTela[k - qtdVert] = screenTriangle;
+              triangulosVista[k - qtdVert] = viewTriangle;
             }
 
             //console.log(vertices);
