@@ -6,11 +6,10 @@ var V;
 
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
-        console.log("AE CARAIO");
-        var input = document.getElementById('input');
+        var input = document.getElementById('camera');
         //var fileDisplayArea = document.getElementById('fileDisplayArea');
 
-        var h1 = document.getElementById('h2');
+        var h1 = document.getElementById('cameradiv');
 
        //EvtListeners pra fazer a leitura dos arquivo e colocar num array
        var aux = [];
@@ -20,6 +19,7 @@ window.addEventListener("load", function () {
 
         reader.onload = function(e) {
           if(file.name == "camera.cfg"){
+            h1.innerHTML = "Camera: Voce carregou o arquivo: " +file.name;
             camera = (reader.result).split('\n');
                    // console.log(camera[0]); 
 
@@ -43,9 +43,9 @@ window.addEventListener("load", function () {
                       console.log(V);
                       console.log(vetoresCam); 
 
-                    }else(console.log("File does not match!"));
+                    }else(h1.innerHTML = "Camera: File does not match!");
                   }
                   reader.readAsText(file);
-                  h1.innerHTML = "Voce carregou o arquivo: " +file.name;
+                  
                 });
 });
