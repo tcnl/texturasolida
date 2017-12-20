@@ -43,13 +43,15 @@ window.addEventListener("load", function () {
             for(var k = qtdVert+1; k < qtdVert + qtdTri +1; k++){
               var aux = [];
               aux = objetos[k].split(" ");
-              triangulos[k - qtdVert] = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
+              var triangle = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
+              triangulos[k - qtdVert] = triangle;
               (triangulos[k - qtdVert]).calculateNormal;
-              triangulosTela[k - qtdVert] = triangulos[k- qtdVert].getScreenTriangle(cam);
+              triangulosTela[k - qtdVert] = triangle.getScreenTriangle(cam);
             }
 
             //console.log(vertices);
            // console.log(triangulos);
+            console.log(cam);
             console.log(triangulos[1].normal);
             console.log(triangulosTela);
           }else(div1.innerHTML = "Objetos: File does not match!");

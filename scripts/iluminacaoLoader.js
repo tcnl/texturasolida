@@ -36,14 +36,18 @@ window.addEventListener("load", function () {
 
 
          }
-         P1 = new Vector(iluminacao[0][0], iluminacao[0][1], iluminacao[0][2]);
-         ka = iluminacao[1][0];
-         Ia = new Vector(iluminacao[2][0], iluminacao[2][1], iluminacao[2][2]);
-         kd = iluminacao[3][0];
-         Od = new Vector(iluminacao[4][0], iluminacao[4][1], iluminacao[4][2]);
-         ks = iluminacao[5][0];
-         Il = iluminacao[6];
-         n = iluminacao[7];
+         P1 = new Vector (parseFloat(iluminacao[0][0]), parseFloat(iluminacao[0][1]), parseFloat(iluminacao[0][2]));
+         ka = parseFloat(iluminacao[1][0]);
+         Ia = new Vector (parseFloat(iluminacao[2][0]), parseFloat(iluminacao[2][1]), parseFloat(iluminacao[2][2]));
+         kd = parseFloat(iluminacao[3][0]);
+         Od = new Vector (parseFloat(iluminacao[4][0]), parseFloat(iluminacao[4][1]), parseFloat(iluminacao[4][2]));
+         ks = parseFloat(iluminacao[5][0]);
+         Il = parseFloat(iluminacao[6]);
+         n = parseFloat(iluminacao[7]);
+
+         console.log(P1);
+         console.log(ka);
+         console.log(Od);
        }else(div3.innerHTML = "Iluminacao: File does not match!");
      }
      reader.readAsText(file);
