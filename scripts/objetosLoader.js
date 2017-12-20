@@ -19,6 +19,15 @@ window.addEventListener("load", function () {
         var file = input.files[0];
         var reader = new FileReader();
 
+        var a = new Point3D(1, 2, 3);
+        var b = new Point3D(4, 5, 6);
+        var c = new Point3D(9, 8, 11);
+        var tri = new Triangle(a, b, c);
+        console.log("DEBUG");
+        console.log(tri);
+        tri = tri.getScreenTriangle(cam);
+        console.log(tri);
+
         reader.onload = function(e) {
           if(~file.name.indexOf(".byu")){
             div1.innerHTML = "Voce carregou o arquivo: " +file.name;
@@ -44,9 +53,10 @@ window.addEventListener("load", function () {
               var aux = [];
               aux = objetos[k].split(" ");
               var triangle = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
+              var screenTriangle = triangle.getScreenTriangle(cam);
               triangulos[k - qtdVert] = triangle;
               (triangulos[k - qtdVert]).calculateNormal;
-              triangulosTela[k - qtdVert] = triangle.getScreenTriangle(cam);
+              triangulosTela[k - qtdVert] = screenTriangle;
             }
 
             //console.log(vertices);

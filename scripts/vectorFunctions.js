@@ -134,6 +134,8 @@ Point3D.prototype.getScreenPoint = function(cam) {
   var x = (cam.d/cam.hx) * (this.x/this.z);
   var y = (cam.d/cam.hy) * (this.y/this.z);
 
+  return new Point3D (x, y, this.z);
+
 };
 
 Point3D.prototype.constantScalarProduct = function(k) {
