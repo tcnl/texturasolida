@@ -155,6 +155,7 @@ function Triangle(p1, p2, p3) {
   this.p2 = p2;
   this.p3 = p3;
   this.normal = new Vector(0, 0, 0);
+  this.calculateNormal();
 }
 
 Triangle.prototype.sort = function() {
@@ -174,22 +175,19 @@ Triangle.prototype.sort = function() {
     this.p2 = a;
   }
 };
+Triangle.prototype.isTriangle = function(){
+        return (this.normal.x != 0 || this.normal.y != 0 || this.normal.z != 0);
+    };
 
 Triangle.prototype.calculateNormal = function() {
-  this.sort();
-  var x = this.p2.x - this.p1.x;
-  var y = this.p2.y - this.p1.y;
-  var z = this.p2.z - this.p1.z;
-  var v21 = new Vector(x, y, z);
-
-  x = this.p3.x - this.p2.x;
-  y = this.p3.y - this.p2.y;
-  z = this.p3.z - this.p2.z;
-  var v32 = new Vector(x, y, z);
-
-  this.normal = v21.vectorProduct(v32);
-  this.normal.normalize();
-};
+        var v = new Vector(this.p2.x - this.p1.x, this.p2.y - this.p1.y, this.p2.z - this.p1.z); 
+        var u = new Vector(this.p3.x - this.p1.x, this.p3.y - this.p2.y, this.p3.z - this.p1.z); 
+        var w = v.vectorProduct(u);
+        this.normal = w;
+        if(this.isTriangle()){
+            this.normal = w.normalize();
+        }
+    };
 
 Triangle.prototype.getViewTriangle = function(cam){
   var p1 = this.p1.toView(cam);

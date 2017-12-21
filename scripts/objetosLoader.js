@@ -59,7 +59,7 @@ window.addEventListener("load", function () {
               var viewTriangle = triangle.getViewTriangle(cam);
               var screenTriangle = triangle.getScreenTriangle(cam);
               triangulos[k - qtdVert] = triangle;
-              triangulos[k - qtdVert].calculateNormal();
+              //triangulos[k - qtdVert].calculateNormal();
               triangulosTela[k - qtdVert] = screenTriangle;
               triangulosVista[k - qtdVert] = viewTriangle;
             }
