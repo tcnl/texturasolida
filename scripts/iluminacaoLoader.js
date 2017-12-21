@@ -33,7 +33,7 @@ window.addEventListener("load", function () {
            for(var i=0; i<aux.length;i++) aux[i] = +aux[i];
 
              iluminacao[k] = aux;
-
+             console.log('iluminacao: ' + iluminacao);
 
          }
          P1 = new Vector (parseFloat(iluminacao[0][0]), parseFloat(iluminacao[0][1]), parseFloat(iluminacao[0][2]));
@@ -45,9 +45,15 @@ window.addEventListener("load", function () {
          Il = parseFloat(iluminacao[6]);
          n = parseFloat(iluminacao[7]);
 
-         console.log(P1);
-         console.log(ka);
-         console.log(Od);
+         console.log('p1: '+ P1);
+         console.log('ka: '+ ka);
+         console.log('ia: '+ Ia);
+         console.log('kd: '+ kd);
+         console.log('od: '+ Od);
+         console.log('ks: '+ ks);
+         console.log('Il: '+ Il);
+         console.log('n: '+ n);
+         
        }else(div3.innerHTML = "Iluminacao: File does not match!");
      }
      reader.readAsText(file);
