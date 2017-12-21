@@ -1,4 +1,11 @@
- <div id="page-wrapper">
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title></title>
+</head>
+<body>
+<div id="top" height="window.innerHeight">
 
         <h1>Selecione os arquivos:</h1>
         <div id="footer">
@@ -6,16 +13,16 @@
             <div class="config-container">
               <div id="objetodiv" class="config-item">Objeto</div>
               <input id="objeto" class="config-item" type="file" value="file">
-              <p></p>
+              
             <div class="config-container">
               <div id="cameradiv" class="config-item">Camera</div>
               <input id="camera" class="config-item" type="file" value="file">
-              <p></p>
+              
             </div>
             <div class="config-container">
               <div id="iluminacaodiv" class="config-item">Ilumina&ccedil;&atilde;o</div>
               <input id="iluminacao" class="config-item" type="file" value="file">
-              <p></p>
+              
             </div>
             <div class="config-container">
               <div class="config-item">Textura</div>
@@ -23,9 +30,19 @@
             </div>
           </div>
         <pre id="fileDisplayArea"><pre>
-
+</div>
+</div>
     </div>
+
+<div id="desenho">
+<canvas id="canvas" height="600" width="600" style="border:1px solid #000000;">
+  
+</div>
+</canvas>
 <script src="./scripts/vectorFunctions.js"></script>
 <script src="./scripts/cameraLoader.js"></script>
 <script src="./scripts/iluminacaoLoader.js"></script>
 <script src="./scripts/objetosLoader.js"></script>
+</body>
+</html>
+ 

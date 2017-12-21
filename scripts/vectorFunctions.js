@@ -1,3 +1,14 @@
+var canvas =  document.getElementById("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+var ctx = canvas.getContext('2d');
+var id = ctx.createImageData(1,1); // only do this once per page
+var d  = id.data;                        // only do this once per page
+d[0]   = 0;
+d[1]   = 0;
+d[2]   = 0;
+ctx.putImageData( id, 100, 100 ); 
+
 function Cam (c ,d, hx, hy, alfa){
   this.c = c;
   this.d = d;
