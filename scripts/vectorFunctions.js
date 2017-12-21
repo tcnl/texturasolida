@@ -81,6 +81,10 @@ function Vector (x, y, z){
     return w;
   };
 
+  this.clone = function () {
+  return new Vector(this.x, this.y, this.z);
+};
+
 }
 
 function Point3D (x, y, z) {
@@ -127,8 +131,13 @@ Point3D.prototype.toView = function(cam) {
 Point3D.prototype.getScreenPoint = function(cam) {
   var x = (cam.d/cam.hx) * (this.x/this.z);
   var y = (cam.d/cam.hy) * (this.y/this.z);
-
-  return new Point3D (x, y, this.z);
+  var a = new Point2D(x, y);
+   var r = new Point2D(((a.x + 1) * (600 / 2)), ((1 - a.y) * (500 / 2)));
+   r.x = Math.round(r.x);
+   r.y = Math.round(r.y);
+   r.normal = this.normal.clone();
+   return r;
+  //return new Point3D (x, y, this.z);
 
 };
 

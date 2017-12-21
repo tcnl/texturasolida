@@ -7,6 +7,10 @@ var triangulos = [];
 var triangulosTela=[];
 var triangulosVista=[];
 
+var c=document.getElementById("canvas");
+var ctx=c.getContext("2d");
+
+
 window.addEventListener("load", function () {
         //Variaveis que pegam as acoes dos botoes
         var input = document.getElementById('objeto');
@@ -51,6 +55,9 @@ window.addEventListener("load", function () {
               vertices[k-1] = new Point3D(parseFloat(aux[0]), parseFloat(aux[1]), parseFloat(aux[2]));
             } 
 
+            ctx.beginPath();
+            
+
             //PREENCHER ARRAY DE TRIANGULOS E CRIAR OS TRIANGULOS DE TELA
             for(var k = qtdVert+1; k < qtdVert + qtdTri +1; k++){
               var aux = [];
@@ -62,6 +69,15 @@ window.addEventListener("load", function () {
               //triangulos[k - qtdVert].calculateNormal();
               triangulosTela[k - qtdVert] = screenTriangle;
               triangulosVista[k - qtdVert] = viewTriangle;
+              ctx.moveTo(screenTriangle.p1.x, screenTriangle.p1.y);
+              ctx.lineTo(screenTriangle.p2.x, screenTriangle.p2.y);
+              ctx.stroke();
+              ctx.moveTo(screenTriangle.p2.x, screenTriangle.p2.y);
+              ctx.lineTo(screenTriangle.p3.x, screenTriangle.p3.y);
+              ctx.stroke();
+              ctx.moveTo(screenTriangle.p3.x, screenTriangle.p3.y);
+              ctx.lineTo(screenTriangle.p1.x, screenTriangle.p1.y);
+              ctx.stroke();
             }
 
             //console.log(vertices);
