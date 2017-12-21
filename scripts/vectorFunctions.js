@@ -9,96 +9,79 @@ d[1]   = 0;
 d[2]   = 0;
 ctx.putImageData( id, 100, 100 ); 
 
-function Cam (c ,d, hx, hy, alfa){
+function Cam (c ,d, hx, hy, alfa, u, v, n){
+  this.u = u;
+  this.v = v;
+  this.n = n;
   this.c = c;
   this.d = d;
   this.hx = hx;
   this.hy = hy;
   this.alfa = alfa;
 }
-function Vector (x, y, z) {
+function Vector (x, y, z){
+
+  //construtor de vector
   this.x = x;
   this.y = y;
   this.z = z;
+
+  //metodo que calcula a norma de um vetor
+  this.norma = function(){
+    var scalarProd = this.scalarProduct(this);
+    var norma = Math.sqrt(scalarProd);
+    return norma;
+  };
+
+  //metodo que calcula o produto escalar
+  this.scalarProduct = function(v){
+    var result = this.x*v.x + this.y*v.y + this.z*v.z;
+    return result;
+  };
+
+  //metodo que faz a normalização do vetor
+  this.normalize = function(){
+    var norma = this.norma();
+    var normX = this.x / norma;
+    var normY = this.y / norma;
+    var normZ = this.z / norma;
+    return (new Vector(normX, normY, normZ));
+  }
+
+  //metodo que calcula o produto vetorial
+  this.vectorProduct = function(v){
+    var pX = this.y*v.z - this.z*v.y;
+    var pY = this.z*v.x - this.x*v.z;
+    var pZ = this.x*v.y - this.y*v.x;
+    return (new Vector(pX, pY, pZ));
+  };
+
+  this.multi = function(p){
+    return new Vector(this.x*p, this.y*p, this.z*p);
+  }
+
+  this.OrtogonalProjection = function (v){
+    var p = (v.scalarProduct(this)) / (this.scalarProduct(this));
+    var vt = new Vector(this.x, this.y, this.z);
+    vt = vt.multi(p);
+    return vt;
+  };
+
+  this.sub = function(v){
+    var x = this.x - v.x;
+    var y = this.y - v.y;
+    var z = this.z - v.z;
+
+    return new Vector (x, y, z);
+  }
+
+  this.GramSchimdt = function(v){
+    var u = v.OrtogonalProjection(this);
+    var w = v.sub(u);
+    return w;
+  };
+
 }
-
-Vector.prototype.add = function(v) {
-  var x = this.x + v.x;
-  var y = this.y + v.y;
-  var z = this.z + v.z;
-
-  return new Vector(x, y, z);
-};
-
-Vector.prototype.sub = function(v) {
-  var x = this.x - v.x;
-  var y = this.y - v.y;
-  var z = this.z - v.z;
-
-  return new Vector(x, y, z);
-};
-
-Vector.prototype.vectorscalarProduct = function(v) {
-  var n = (this.x * v.x) + (this.y * v.y) + (this.z * v.z);
-  return n;
-};
-
-Vector.prototype.crossProduct = function(v) {
-  var x = (this.y * v.z) - (this.z * v.y);
-  var y = (this.z * v.x) - (v.z * this.x);
-  var z = (this.x * v.y) - (this.y * v.x);
-
-  return new Vector(x, y, z);
-};
-
-Vector.prototype.getNorm = function() {
-  n = this.vectorscalarProduct(this);
-  return Math.sqrt(n);
-};
-
-Vector.prototype.getCosine = function(v) {
-  return (v.scalarProduct(this))/(this.getNorm() * v.getNorm());
-};
-
-Vector.prototype.normalize = function(){
-  norm = this.getNorm();
-  if (norm == 0) return;
-  this.x /= norm;
-  this.y /= norm;
-  this.z /= norm;
-};
-
-Vector.prototype.constantScalarProduct = function(k) {
-  var x = this.x * k;
-  var y = this.y * k;
-  var z = this.z * k;
-
-  return new Vector(x, y, z);
-};
-
-Vector.prototype.ortogonalProjection = function(v) {
-  var scalarProduct = this.vectorscalarProduct(v);
-  var vNorm = v.getNorm();
-  vNorm *= vNorm;
-
-  return v.constantScalarProduct(scalarProduct/vNorm);
-};
-
-Vector.prototype.sum = function(v) {
-  var x = this.x + v.x;
-  var y = this.y + v.y;
-  var z = this.z + v.z;
-
-  return new Vector(x, y, z);
-};
-
-Vector.prototype.gramSchimdt = function(v) {
-  return this.sub(v.ortogonalProjection(this));
-};
-
-Vector.prototype.clone = function() {
-  return new Vector(this.x, this.y, this.z);
-};
 
 function Point3D (x, y, z) {
   this.x = x;
@@ -204,7 +187,7 @@ Triangle.prototype.calculateNormal = function() {
   z = this.p3.z - this.p2.z;
   var v32 = new Vector(x, y, z);
 
-  this.normal = v21.crossProduct(v32);
+  this.normal = v21.vectorProduct(v32);
   this.normal.normalize();
 };
 

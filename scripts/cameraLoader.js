@@ -41,14 +41,11 @@ window.addEventListener("load", function () {
                       N = new Vector(parseFloat(camera[1][0]), parseFloat(camera[1][1]), parseFloat(camera[1][2]));
                       V = new Vector(parseFloat(camera[2][0]), parseFloat(camera[2][1]), parseFloat(camera[2][2]));
                       console.log(V);
-                      V = V.gramSchimdt(N);
-                      U = V.crossProduct(N);
-
-                     
-
-                      U.normalize;
-                      V.normalize;
                       N.normalize;
+                      V = V.GramSchimdt(N);
+                      V.normalize;
+                      U = V.vectorProduct(N);
+
                       alfa = [];
                       aux = [];
                       alfa[0] = aux;
@@ -66,7 +63,7 @@ window.addEventListener("load", function () {
                       alfa[2][1] = N.y;
                       alfa[2][2] = N.z;
 
-                      cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), alfa) 
+                      cam = new Cam(C, parseFloat(camera[3][0]),parseFloat(camera[3][1]), parseFloat(camera[3][2]), alfa, U, V, N) 
                       console.log("DEBUG CAM: N, V, U, Alfa");
                       console.log(N);
                       console.log(V);
