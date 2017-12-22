@@ -3,6 +3,57 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var ctx = canvas.getContext('2d');
 
+function iluminacao (pl, ka, ia, kd, od, ks, il, n){
+
+    //Construtor da classe de iluminação
+    this.pl = pl;   //posicao da luz em coordenadas de mundo
+    this.ka = ka;   //reflexao ambiental
+    this.ia = ia;   //vetor cor ambiental
+    this.kd = kd;   //constante difusa
+    this.od = od;   //vetor difuso
+    this.ks = ks;   //constante especular
+    this.il = il;   //cor da fonte de luz
+    this.n = n;     //constante de rugosidade
+    this.backupIA = ia;
+
+    this.phong = function(n, v, l){
+        var color = new Vector(0, 0, 0);
+        var diffuse = new Vector(0, 0, 0);
+        var specular = new Vector(0, 0, 0);
+        var ambient = new Vector(this.ia.x*this.ka, this.ia.y*this.ka, this.ia.z*this.ka);
+
+        var nl = n.scalarProduct(l);
+        if(nl > 0) {
+            var dx = this.kd*this.od.x*this.il.x*nl;
+            var dy = this.kd*this.od.y*this.il.y*nl;
+            var dz = this.kd*this.od.z*this.il.z*nl;
+            diffuse = new Vector(dx, dy, dz);
+
+            var r = n.clone();
+            r.x = 2*nl*n.x;
+            r.y = 2*nl*n.y;
+            r.z = 2*nl*n.z;
+            r = r.sub(l);
+
+            var spRV = r.scalarProduct(v);
+            if(spRV > 0){
+                var aux = this.ks*Math.pow(spRV, this.n);
+                specular.x = this.il.x*aux;
+                specular.y = this.il.y*aux;
+                specular.z = this.il.z*aux;
+            }
+        }
+
+        color = color.add(ambient);
+        color = color.add(diffuse);
+        color = color.add(specular);
+        color.x = Math.floor(Math.min(color.x, 255));
+        color.y = Math.floor(Math.min(color.y, 255));
+        color.z = Math.floor(Math.min(color.z, 255));
+        return color;
+    };
+}
+
 
 function Cam (c ,d, hx, hy, alfa, u, v, n){
   this.u = u;
@@ -18,9 +69,9 @@ function Cam (c ,d, hx, hy, alfa, u, v, n){
 function drawLine(originX, originY, destinyX, destinyY ) {
   ctx.strokeStyle = "#000000";
   ctx.beginPath();
-  ctx.moveTo(originX, originY);
-  ctx.lineTo(destinyX, destinyY);
-  ctx.stroke();
+    ctx.moveTo(originX, originY);
+    ctx.lineTo(destinyX, destinyY);
+    ctx.stroke();
 }
 
 function fillBottomFlatTriangle(v1, v2, v3){
@@ -67,7 +118,7 @@ function drawTriangle(triangle) {
     var x4 = v1.x + deltaY2perY3 * (v3.x - v1.x);
     var v4 = new Point2D( x4, v2.y, v2.y);
     fillBottomFlatTriangle(v1, v2, v4);
-    fillTopFlatTriangle(v2, v4, v3);
+      fillTopFlatTriangle(v2, v4, v3);
   }
 }
 
@@ -81,9 +132,9 @@ function drawObjectTriangles() {
 function drawLine(originX, originY, destinyX, destinyY ) {
   ctx.strokeStyle = "#000000";
   ctx.beginPath();
-  ctx.moveTo(originX, originY);
-  ctx.lineTo(destinyX, destinyY);
-  ctx.stroke();
+    ctx.moveTo(originX+200, originY+200);
+    ctx.lineTo(destinyX+200, destinyY+200);
+    ctx.stroke();
 }
 function Vector (x, y, z){
 
@@ -148,8 +199,8 @@ function Vector (x, y, z){
   };
 
   this.clone = function () {
-    return new Vector(this.x, this.y, this.z);
-  };
+  return new Vector(this.x, this.y, this.z);
+};
 
 }
 
@@ -198,11 +249,11 @@ Point3D.prototype.getScreenPoint = function(cam) {
   var x = (cam.d/cam.hx) * (this.x/this.z);
   var y = (cam.d/cam.hy) * (this.y/this.z);
   var a = new Point2D(x, y);
-  var r = new Point2D(((a.x + 1) * (canvas.width / 2)), ((1 - a.y) * (canvas.height / 2)));
-  r.x = Math.round(r.x);
-  r.y = Math.round(r.y);
-  r.normal = this.normal.clone();
-  return r;
+   var r = new Point2D(((a.x + 1) * (canvas.width / 2)), ((1 - a.y) * (canvas.height / 2)));
+   r.x = Math.round(r.x);
+   r.y = Math.round(r.y);
+   r.normal = this.normal.clone();
+   return r;
   //return new Point3D (x, y, this.z);
 
 };
@@ -251,19 +302,15 @@ Triangle.prototype.sort = function() {
   }
 };
 Triangle.prototype.isTriangle = function(){
-  return (this.normal.x != 0 || this.normal.y != 0 || this.normal.z != 0);
-};
+        return (this.normal.x != 0 || this.normal.y != 0 || this.normal.z != 0);
+    };
 
 Triangle.prototype.calculateNormal = function() {
-  var v = new Vector(this.p2.x - this.p1.x, this.p2.y - this.p1.y, this.p2.z - this.p1.z); 
-  var u = new Vector(this.p3.x - this.p1.x, this.p3.y - this.p2.y, this.p3.z - this.p1.z); 
-  var w = v.vectorProduct(u);
-  this.normal = w;
-  if(this.isTriangle()){
-    this.normal = w.normalize();
-  }
+  var v2v1 = new Vector(this.p2.x - this.p1.x, this.p2.y - this.p1.y, this.p2.z - this.p1.z);
+  var v3v1 = new Vector(this.p3.x - this.p1.x, this.p3.y - this.p1.y, this.p3.z - this.p1.z);
+  this.normal = v2v1.vectorProduct(v3v1);
+  this.normal.normalize();
 };
-
 Triangle.prototype.getViewTriangle = function(cam){
   var p1 = this.p1.toView(cam);
   var p2 = this.p2.toView(cam);
@@ -305,3 +352,5 @@ Triangle.prototype.getBaricentricalVector = function(cb) {
 
   return new Vector(a.x, a.y, a.z);
 };
+
+

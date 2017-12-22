@@ -49,14 +49,17 @@ window.addEventListener("load", function () {
             for(var k = qtdVert+1; k < qtdVert + qtdTri +1; k++){
               var aux = [];
               aux = objetos[k].split(" ");
-              var triangle = new Triangle(vertices[parseInt(aux[0])], vertices[parseInt(aux[1])], vertices[parseInt(aux[2])]);
+              var triangle = new Triangle(vertices[parseFloat(aux[0])], vertices[parseFloat(aux[1])], vertices[parseFloat(aux[2])]);
               var viewTriangle = triangle.getViewTriangle(cam);
-              var screenTriangle = triangle.getScreenTriangle(cam);
+              //var screenTriangle = triangle.getScreenTriangle(cam);
               triangulos[k - qtdVert] = triangle;
+              viewTriangle.sort();
+              viewTriangle.calculateNormal();
               triangle.sort();
+              triangle.calculateNormal();
+             // triangle.p1.calculateNormal();
               drawTriangle(triangle);
-              //triangulos[k - qtdVert].calculateNormal();
-              triangulosTela[k - qtdVert] = screenTriangle;
+              //triangulosTela[k - qtdVert] = screenTriangle;
               triangulosVista[k - qtdVert] = viewTriangle;
               /*ctx.beginPath();
               ctx.moveTo(viewTriangle.p1.x, viewTriangle.p1.y);
@@ -70,12 +73,11 @@ window.addEventListener("load", function () {
               ctx.stroke();*/
             }
 
-            //console.log(vertices);
-           // console.log(triangulos);
-            console.log(cam);
-            console.log(triangulos[1].normal);
+            console.log(vertices);
+            console.log(triangulos);
             console.log(triangulosVista);
-            console.log(triangulosTela);
+            console.log(cam);
+           
           }else(div1.innerHTML = "Objetos: File does not match!");
         }
         reader.readAsText(file);
