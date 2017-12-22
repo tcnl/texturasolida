@@ -2,12 +2,7 @@ var canvas =  document.getElementById("canvas");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var ctx = canvas.getContext('2d');
-var id = ctx.createImageData(1,1); // only do this once per page
-var d  = id.data;                        // only do this once per page
-d[0]   = 0;
-d[1]   = 0;
-d[2]   = 0;
-ctx.putImageData( id, 100, 100 ); 
+
 
 function Cam (c ,d, hx, hy, alfa, u, v, n){
   this.u = u;
@@ -18,6 +13,77 @@ function Cam (c ,d, hx, hy, alfa, u, v, n){
   this.hx = hx;
   this.hy = hy;
   this.alfa = alfa;
+}
+
+function drawLine(originX, originY, destinyX, destinyY ) {
+  ctx.strokeStyle = "#000000";
+  ctx.beginPath();
+  ctx.moveTo(originX, originY);
+  ctx.lineTo(destinyX, destinyY);
+  ctx.stroke();
+}
+
+function fillBottomFlatTriangle(v1, v2, v3){
+  var invslope1 = (v2.x - v1.x) / (v2.y - v1.y);
+  var invslope2 = (v3.x - v1.x) / (v3.y - v1.y);
+
+  var curx1 = v1.x;
+  var curx2 = v1.x;
+
+  for (var scanlineY = v1.y; scanlineY <= v2.y; scanlineY++)
+  {
+    drawLine(Math.round(curx1), scanlineY, Math.round(curx2), scanlineY);
+    curx1 += invslope1;
+    curx2 += invslope2;
+  }
+}
+
+function fillTopFlatTriangle(v1, v2, v3) {
+  var invslope1 = (v3.x - v1.x) / (v3.y - v1.y);
+  var invslope2 = (v3.x - v2.x) / (v3.y - v2.y);
+
+  var curx1 = v3.x;
+  var curx2 = v3.x;
+
+  for (var scanlineY = v3.y; scanlineY > v1.y; scanlineY--)
+  {
+    drawLine(curx1, scanlineY, curx2, scanlineY);
+    curx1 -= invslope1;
+    curx2 -= invslope2;
+  }
+}
+
+function drawTriangle(triangle) {
+  var v1 = new Point2D(triangle.p1.x, triangle.p1.y); //Ponto 1 do triÃ¢ngulo passado como parÃ¢metro
+  var v2 = new Point2D(triangle.p2.x, triangle.p2.y); //Ponto 2 do triÃ¢ngulo passado como parÃ¢metro
+  var v3 = new Point2D(triangle.p3.x, triangle.p3.y); //Ponto 3 do triÃ¢ngulo passado como parÃ¢metro
+
+  if (v2.y == v3.y) { //Compara y dos pontos v2 e v3
+    fillBottomFlatTriangle(v1, v2, v3);
+  } else if (v1.y == v2.y) { //Compara y dos pontos v1 e v2
+    fillTopFlatTriangle(v1, v2, v3);
+  } else {
+    var deltaY2perY3 = (v2.y - v1.y) / (v3.y - v1.y);
+    var x4 = v1.x + deltaY2perY3 * (v3.x - v1.x);
+    var v4 = new Point2D( x4, v2.y, v2.y);
+    fillBottomFlatTriangle(v1, v2, v4);
+    fillTopFlatTriangle(v2, v4, v3);
+  }
+}
+
+function drawObjectTriangles() {
+  for (let i in object.triangles) {
+    sortPointsByY(object.triangles[i].triangle);
+    drawTriangle(object.triangles[i]);
+  }
+}
+
+function drawLine(originX, originY, destinyX, destinyY ) {
+  ctx.strokeStyle = "#000000";
+  ctx.beginPath();
+  ctx.moveTo(originX, originY);
+  ctx.lineTo(destinyX, destinyY);
+  ctx.stroke();
 }
 function Vector (x, y, z){
 
@@ -82,8 +148,8 @@ function Vector (x, y, z){
   };
 
   this.clone = function () {
-  return new Vector(this.x, this.y, this.z);
-};
+    return new Vector(this.x, this.y, this.z);
+  };
 
 }
 
@@ -132,11 +198,11 @@ Point3D.prototype.getScreenPoint = function(cam) {
   var x = (cam.d/cam.hx) * (this.x/this.z);
   var y = (cam.d/cam.hy) * (this.y/this.z);
   var a = new Point2D(x, y);
-   var r = new Point2D(((a.x + 1) * (600 / 2)), ((1 - a.y) * (500 / 2)));
-   r.x = Math.round(r.x);
-   r.y = Math.round(r.y);
-   r.normal = this.normal.clone();
-   return r;
+  var r = new Point2D(((a.x + 1) * (canvas.width / 2)), ((1 - a.y) * (canvas.height / 2)));
+  r.x = Math.round(r.x);
+  r.y = Math.round(r.y);
+  r.normal = this.normal.clone();
+  return r;
   //return new Point3D (x, y, this.z);
 
 };
@@ -185,18 +251,18 @@ Triangle.prototype.sort = function() {
   }
 };
 Triangle.prototype.isTriangle = function(){
-        return (this.normal.x != 0 || this.normal.y != 0 || this.normal.z != 0);
-    };
+  return (this.normal.x != 0 || this.normal.y != 0 || this.normal.z != 0);
+};
 
 Triangle.prototype.calculateNormal = function() {
-        var v = new Vector(this.p2.x - this.p1.x, this.p2.y - this.p1.y, this.p2.z - this.p1.z); 
-        var u = new Vector(this.p3.x - this.p1.x, this.p3.y - this.p2.y, this.p3.z - this.p1.z); 
-        var w = v.vectorProduct(u);
-        this.normal = w;
-        if(this.isTriangle()){
-            this.normal = w.normalize();
-        }
-    };
+  var v = new Vector(this.p2.x - this.p1.x, this.p2.y - this.p1.y, this.p2.z - this.p1.z); 
+  var u = new Vector(this.p3.x - this.p1.x, this.p3.y - this.p2.y, this.p3.z - this.p1.z); 
+  var w = v.vectorProduct(u);
+  this.normal = w;
+  if(this.isTriangle()){
+    this.normal = w.normalize();
+  }
+};
 
 Triangle.prototype.getViewTriangle = function(cam){
   var p1 = this.p1.toView(cam);

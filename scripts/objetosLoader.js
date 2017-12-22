@@ -7,8 +7,6 @@ var triangulos = [];
 var triangulosTela=[];
 var triangulosVista=[];
 
-var c=document.getElementById("canvas");
-var ctx=c.getContext("2d");
 
 
 window.addEventListener("load", function () {
@@ -23,17 +21,6 @@ window.addEventListener("load", function () {
        input.addEventListener('change', function(e, v) {
         var file = input.files[0];
         var reader = new FileReader();
-
-        var a = new Point3D(1, 2, 3);
-        var b = new Point3D(4, 5, 6);
-        var c = new Point3D(9, 8, 11);
-        var tri = new Triangle(a, b, c);
-        console.log("DEBUG");
-        console.log(tri);
-        tri = tri.getViewTriangle(cam);
-        console.log(tri);
-        tri = tri.getScreenTriangle(cam);
-        console.log(tri);
 
         reader.onload = function(e) {
           if(~file.name.indexOf(".byu")){
@@ -55,7 +42,7 @@ window.addEventListener("load", function () {
               vertices[k-1] = new Point3D(parseFloat(aux[0]), parseFloat(aux[1]), parseFloat(aux[2]));
             } 
 
-            ctx.beginPath();
+            
             
 
             //PREENCHER ARRAY DE TRIANGULOS E CRIAR OS TRIANGULOS DE TELA
@@ -66,18 +53,21 @@ window.addEventListener("load", function () {
               var viewTriangle = triangle.getViewTriangle(cam);
               var screenTriangle = triangle.getScreenTriangle(cam);
               triangulos[k - qtdVert] = triangle;
+              triangle.sort();
+              drawTriangle(triangle);
               //triangulos[k - qtdVert].calculateNormal();
               triangulosTela[k - qtdVert] = screenTriangle;
               triangulosVista[k - qtdVert] = viewTriangle;
-              ctx.moveTo(screenTriangle.p1.x, screenTriangle.p1.y);
-              ctx.lineTo(screenTriangle.p2.x, screenTriangle.p2.y);
+              /*ctx.beginPath();
+              ctx.moveTo(viewTriangle.p1.x, viewTriangle.p1.y);
+              ctx.lineTo(viewTriangle.p2.x, viewTriangle.p2.y);
               ctx.stroke();
-              ctx.moveTo(screenTriangle.p2.x, screenTriangle.p2.y);
-              ctx.lineTo(screenTriangle.p3.x, screenTriangle.p3.y);
+              ctx.moveTo(viewTriangle.p2.x, viewTriangle.p2.y);
+              ctx.lineTo(viewTriangle.p3.x, viewTriangle.p3.y);
               ctx.stroke();
-              ctx.moveTo(screenTriangle.p3.x, screenTriangle.p3.y);
-              ctx.lineTo(screenTriangle.p1.x, screenTriangle.p1.y);
-              ctx.stroke();
+              ctx.moveTo(viewTriangle.p3.x, viewTriangle.p3.y);
+              ctx.lineTo(viewTriangle.p1.x, viewTriangle.p1.y);
+              ctx.stroke();*/
             }
 
             //console.log(vertices);
